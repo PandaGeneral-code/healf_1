@@ -1,21 +1,36 @@
 import React from "react";
+import { Route, Switch, useHistory } from "react-router-dom";
 
-import { screens, screens_ALT } from "./_config";
+import { path as containerPath, screens } from "./_config";
+
+import Fallback from "../../components/Fallback/Fallback";
 
 const Nutrition = () => {
+  const history = useHistory();
+
+  const handleButtonClick = (path) => {
+    history.push(`/${containerPath}/${path}`);
+  };
+
   return (
     <>
       <div>Nutrition</div>
-      <ol>
-        {screens.map((screenName) => (
-          <li key={screenName}>{screenName}</li>
+      <div>
+        {screens.map(({ screenName, screenPath }) => (
+          <button
+            key={screenPath}
+            onClick={() => handleButtonClick(screenPath)}
+          >
+            {screenName}
+          </button>
         ))}
-      </ol>
-      <ol>
-        {screens_ALT.map((screenPath) => (
-          <li key={screenPath}>{screenPath}</li>
+      </div>
+      <Switch>
+        {screens.map(({ screenPath }) => (
+          <Route key={screenPath} path={`/${containerPath}/${screenPath}`} />
         ))}
-      </ol>
+        <Route component={Fallback} path="/:container?/:screen?" />
+      </Switch>
     </>
   );
 };

@@ -9,6 +9,7 @@ import RootWrapper, { ContentContainer, NavigationContainer } from "./styled";
 
 const App = () => {
   const {
+    location: { container, screen },
     state: { containers },
   } = useUtilsHooks();
 
@@ -25,6 +26,7 @@ const App = () => {
           <Route component={Fallback} path="/:container?/:screen?" />
         </Switch>
       </ContentContainer>
+      <pre>{JSON.stringify({ container, screen }, null, 2)}</pre>
       <Drawer />
     </RootWrapper>
   );
